@@ -39,7 +39,7 @@ public class ControllerClass {
 
     @GetMapping("/rest/employees/{empId}")
     @ApiOperation(value="Finds an employee by employee id otherwise suitable response")
-    public ResponseEntity findParticular(@ApiParam(value = "Employee unique id for the details you need to retrieve",required = true) @PathVariable("empId") int empId)
+    public ResponseEntity findParticular(@ApiParam(value = "Employee unique id for the details you need to retrieve",example = "1",required = true) @PathVariable("empId") Integer empId)
     {
         if(empId<0)
         {
@@ -59,7 +59,7 @@ public class ControllerClass {
 
     @PutMapping("/rest/employees/{empId}")
     @ApiOperation(value="Updates a particular employee by Id ")
-    public ResponseEntity putData(@ApiParam(value = "Employee unique id whose details you need to update",required = true)@PathVariable("empId") int empId, @RequestBody PutRequest emp) {
+    public ResponseEntity putData(@ApiParam(value = "Employee unique id whose details you need to update",example = "1",required = true)@PathVariable("empId") int empId, @RequestBody PutRequest emp) {
 
 
         if(empId<0)
@@ -97,7 +97,7 @@ public class ControllerClass {
     }
     @DeleteMapping("/rest/employees/{employeeId}")
     @ApiOperation(value="Delete an employee by id otherwise suitable response")
-    public ResponseEntity deleteEmployee(@ApiParam(value = "Employee unique id whom you want to delete",required = true)@PathVariable("employeeId") int employeeId)
+    public ResponseEntity deleteEmployee(@ApiParam(value = "Employee unique id whom you want to delete",example = "1",required = true)@PathVariable("employeeId") int employeeId)
     {
         if(employeeId<0)
         {

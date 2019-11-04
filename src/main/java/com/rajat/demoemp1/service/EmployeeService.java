@@ -121,7 +121,7 @@ public class EmployeeService {
             if (empRepo.findByEmpId(oldId).designation.getDesId() == 1)
                 return new ResponseEntity<>(message.getMessage("UPDATING_DIRECTOR"), HttpStatus.BAD_REQUEST);                  // badRequest as user is trying to update the supervisor of the director
             if (emp.getJobTitle() == null) {
-                if (empValidate.parentPossible(employee, emp.getManagerId())) {                                                    // checking if the new supervisor is valid or not
+                if (empValidate.parentPossible(employee, emp.getManagerId())) {                                        // checking if the new supervisor is valid or not
                     employee.setParentId(emp.getManagerId());
 
                 } else
@@ -136,7 +136,7 @@ public class EmployeeService {
             }
         }
 
-        if (emp.getJobTitle() != null && (!emp.getJobTitle().equals(""))) {
+        if (emp.getJobTitle() != null &&( !emp.getJobTitle().equals(""))) {
             if (empRepo.findByEmpId(oldId).designation.getDesId() == 1 && (!emp.getJobTitle().equals("Director"))) {
                 return new ResponseEntity<>(message.getMessage("UPDATING_DIRECTOR"), HttpStatus.BAD_REQUEST);                  //badRequest user is trying to update jobTitle of director
             }
@@ -144,7 +144,8 @@ public class EmployeeService {
                 if (empValidate.designationChange(employee, emp.getJobTitle())) {
                     employee.designation = degRepo.findByDesgNameLike(emp.getJobTitle());
 
-                } else
+                }
+                else
                     return new ResponseEntity<>(message.getMessage("INVALID_DESIGNATION"), HttpStatus.BAD_REQUEST);
             } else if (empValidate.empExist(emp.getManagerId())) {
                 employee.setParentId(emp.getManagerId());
@@ -172,7 +173,7 @@ public class EmployeeService {
         if (emp.getName() == null || emp.getName().trim().equals(""))
             return new ResponseEntity<>(message.getMessage("INVALID_NAME"), HttpStatus.BAD_REQUEST);
 
-        else if (emp.getManagerId() != null) {
+       else  if (emp.getManagerId() != null) {
             if (!empValidate.empExist(emp.getManagerId())) {
                 return new ResponseEntity<>(message.getMessage("INVALID_SUPERVISOR"), HttpStatus.BAD_REQUEST);
             }
@@ -186,8 +187,7 @@ public class EmployeeService {
                 empRepo.delete(empRepo.findByEmpId(empId));
                 ResponseEntity response = this.findParticular(newEmployee.getEmpId());
                 return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
-            } else
-                return new ResponseEntity<>(message.getMessage("INVALID_SUPERVISOR"), HttpStatus.BAD_REQUEST);             // if the level of supervisor and subordinates is not valid then return badRequest
+            } else return new ResponseEntity<>(message.getMessage("INVALID_SUPERVISOR"), HttpStatus.BAD_REQUEST);             // if the level of supervisor and subordinates is not valid then return badRequest
         } else if (empValidate.designationValid(empRepo.findByEmpId(empId), emp.getJobTitle()) && emp.getManagerId() == null) {        // checking if the designation  entered is valid or not
 
             Employee newEmployee = new Employee(degRepo.findByDesgNameLike(emp.getJobTitle()), empRepo.findByEmpId(empId).getParentId(), emp.getName());
